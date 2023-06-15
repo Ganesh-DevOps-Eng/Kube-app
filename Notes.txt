@@ -1,0 +1,79 @@
+User name,Password,Console sign-in URL
+terradmin,lvRJd71*,https://574721397869.signin.aws.amazon.com/console
+
+
+AKIAYLUAQSRWWR2HZD4X
+
+m2fpki4DvcLvt95MWrEi8oLdzJ/42lr/lMh8gaaE
+
+export AWS_ACCESS_KEY_ID=AKIAYLUAQSRWWR2HZD4X
+export AWS_SECRET_ACCESS_KEY=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
+
+#####Install kops 
+curl -LO https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
+
+chmod +x kops-linux-amd64
+sudo mv kops-linux-amd64 /usr/local/bin/kops
+Note :- exit terminal and reopen or reconnect 
+####### install kube ctl 
+ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+kubectl version --client
+#########################################
+
+
+luch ec2 confirgure aws cli
+create IAM user and access for s3bucket
+
+
+lunch53 :
+Domain name >kubevpro.azadibachaoandolan.com
+>> create
+copy NS server name and uppdate in domain register server 
+add there 4 nameserver record	
+
+
+ns_records = tolist([
+  "ns-1664.awsdns-16.co.uk",
+  "ns-645.awsdns-16.net",
+  "ns-1441.awsdns-52.org",
+  "ns-133.awsdns-16.com",
+])
+
+arn:aws:s3:::elasticbeanstalk-ap-south-1-574721397869
+
+
+kops create cluster --name=kubevpro.azadibachaoandolan.com \ 
+--state=s3://elasticbeanstalk-ap-south-1-574721397869 --zones=ap-south-1a,ap-south-1b \ 
+--node-count=2 --node-size=t3.small --master-size=t3.medium --dns-zone=kubevpro.azadibachaoandolan.com \ 
+--node-volume-size=8 --master-volume-size=8
+
+#using the Powershell
+
+kops create cluster --name=kubevpro.azadibachaoandolan.com --state=s3://elasticbeanstalk-ap-south-1-574721397869 --zones=ap-south-1a,ap-south-1b --node-count=2 --node-size=t3.small --master-size=t3.medium --dns-zone=kubevpro.azadibachaoandolan.com --node-volume-size=8 --master-volume-size=8
+
+
+kops update cluster --name kubevpro.azadibachaoandolan.com --state s3://elasticbeanstalk-ap-south-1-574721397869 --yes --admin
+
+# when change only
+kops rolling-update cluster --state s3://elasticbeanstalk-ap-south-1-574721397869 --yes
+
+kops delete cluster --name kubevpro.azadibachaoandolan.com --state s3://elasticbeanstalk-ap-south-1-574721397869 --yes
+
+
+
+aws ec2 create-volume --availability-zone ap-south-1a --size 3 --volume-type gp2
+"VolumeId": "vol-07d74a766eebea5e3",
+
+kops validate cluster --state=s3://elasticbeanstalk-ap-south-1-574721397869
+kubectl get nodes --show-labels
+kubectl get pods
+kubectl get svc
+
+
+Suggestions:
+ * validate cluster: kops validate cluster --wait 10m
+ * list nodes: kubectl get nodes --show-labels
+ * ssh to a control-plane node: ssh -i ~/.ssh/id_rsa ubuntu@api.kubevpro.azadibachaoandolan.com
+ * the ubuntu user is specific to Ubuntu. If not using Ubuntu please use the appropriate user based on your OS.
+ * read about installing addons at: https://kops.sigs.k8s.io/addons.
