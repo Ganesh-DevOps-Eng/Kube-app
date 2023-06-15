@@ -69,3 +69,13 @@ kops validate cluster --state=s3://elasticbeanstalk-ap-south-1-574721397869
 kubectl get nodes --show-labels
 kubectl get pods
 kubectl get svc
+
+
+########### on linux machine 
+
+kubectl create -f app-secret.yaml
+kubectl describe secret
+
+
+kubectl create -f vprodbdep.yaml
+kubectl get deploy
